@@ -1,25 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int len(string s, int k, string out[])
+void len(string s, int k, string out)
 {
-    if (s.size() == 0)
+    if (k == 0)
     {
-        out[0] = "";
-        return 1;
+        cout << out << endl;
+        return;
     }
-    int small = len(s.substr(1), k, out);
+    for (int i = 0; i < s.size(); i++)
+    {
+        //len(s.substr(1), k - 1, out);
+        len(s, k - 1, out + s[i]);
+    }
+    //
 
-    int m = 0;
-    for (int i = 0; i < small; i++)
-    {
-        if (out[i].size() < k)
-        {
-            out[m] = out[i] + s[0];
-            m++;
-        }
-    }
-    return m;
+    // len(s.substr(1), k - 1, out + s[1]);
+    // len(s.substr(1), k - 1, out + s[2]);
 }
 
 int main()
@@ -29,13 +26,9 @@ int main()
     string s;
     cin >> s;
 
-    string *out = new string[1000];
+    string out = "";
 
-    int count = len(s, k, out);
+    len(s, k, out);
 
-    for (int i = 0; i < count; i++)
-    {
-        cout << out[i] << endl;
-    }
     return 0;
 }
