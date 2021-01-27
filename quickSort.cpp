@@ -1,76 +1,54 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int partition(int a[], int st, int en)
+int part(int a[], int st, int en)
 {
+    int pivot = a[st];
     int x = 0;
-    for (int i = st; i < en; i++)
+    for (int i = st + 1; i < en; i++)
     {
-
-        if (a[st] > a[i])
+        if (a[i] <= pivot)
         {
-
             x++;
         }
-        int temp = a[x];
-        a[x] = a[st];
-        a[st] = temp;
     }
+    int pi = x + st;
+    int temp = a[st];
+    a[st] = a[pi];
+    a[pi] = temp;
 
-    int m = st;
-    int n = x + 1;
-    while (m < x && n < en)
+    int i = st, j = en;
+    while (i <= pi && j >= pi)
     {
-        if (a[m] > a[x] && a[n] < a[x])
+        while (a[i] <= pivot)
         {
-            int demp = a[n];
-            a[n] = a[m];
-            a[m] = demp;
+            i++;
         }
-        else if (a[m] < a[x] && a[n] < a[x])
+        while (a[j] >= pivot)
         {
-            m++;
+            j--;
         }
-        else if (a[n] > a[x] && a[m] > a[x])
+        if (i < pi && j > pi)
         {
-            n++;
+            int wen = a[i];
+            a[i] = a[j];
+            a[j] = wen;
+            i++;
+            j--;
         }
     }
-    return x;
-
-    // int pivot = a[u];
-    // int pIndex = l;
-
-    // for (int i = l; i < u; i++)
-    // {
-
-    //     if (pivot > a[i])
-    //     {
-    //         int temp = a[pIndex];
-    //         a[pIndex] = a[i];
-    //         a[i] = temp;
-    //         pIndex++;
-    //     }
-    // }
-    // int temp = a[pIndex];
-    // a[pIndex] = a[u];
-    // a[u] = temp;
-    // return pIndex;
+    return pi;
 }
 
-void quic(int a[], int st, int en)
+void qui(int a[], int st, int en)
 {
     if (st >= en)
     {
         return;
     }
-    int c = partition(a, st, en);
-    quic(a, st, c - 1);
-    quic(a, c + 1, en);
-}
-void qui(int a[], int n)
-{
-    quic(a, 0, n - 1);
+    int pivot = part(a, st, en);
+    qui(a, st, pivot - 1);
+    qui(a, pivot + 1, en);
 }
 
 int main()
@@ -82,7 +60,7 @@ int main()
     {
         cin >> a[i];
     }
-    qui(a, n);
+    qui(a, 0, n - 1);
 
     for (int i = 0; i < n; i++)
     {
