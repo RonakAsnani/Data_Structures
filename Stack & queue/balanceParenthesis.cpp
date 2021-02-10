@@ -1,3 +1,17 @@
+/*  
+Code : Balanced Parenthesis
+Given a string expression, check if brackets present in the expression are balanced or not. Brackets are balanced if the bracket which opens last, closes first.
+You need to return true if it is balanced, false otherwise.
+Note: This problem was asked in initial rounds in Facebook
+Sample Input 1 :
+{ a + [ b+ (c + d)] + (e + f) }
+Sample Output 1 :
+true
+Sample Input 2 :
+{ a + [ b - c } ]
+Sample Output 2 :
+false*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -38,15 +52,4 @@ bool check(char *a, int s)
         }
     }
     return s1.empty();
-}
-
-int main()
-{
-    char *a = new char[19];
-    for (int i = 0; i < 19; i++)
-    {
-        cin >> a[i];
-    }
-    cout << check(a, 19);
-    return 0;
 }
