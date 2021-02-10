@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 class Node
@@ -49,26 +49,35 @@ Node *takeinput()
     return head;
 }
 
-Node* kreverse(Node*head,int n){
-    int curr =0;
-    Node*temp = head;
-    Node*tail = head;
-    while(temp != NULL){
-        if(curr%n == 0){
-            int pos =1;
-            while(pos<n){
-                tail =tail->next;
-                n++;
-            }
-            reverse(temp,)
-        }
+Node *insert(Node *head, int i, int data)
+{
+    //Node *temp = head;
+    if (head == NULL)
+    {
+        return NULL;
     }
+    if (i == 0)
+    {
+        Node *ne = new Node(data);
+        ne->next = head;
+        return ne;
+    }
+    if (i == 1)
+    {
+        Node *ne = new Node(data);
+        ne->next = head->next;
+        head->next = ne;
+        return ne;
+    }
+    Node *curr = insert(head->next, i - 1, data);
+
+    return head;
 }
 
-int main(){
-    Node*head = takeinput();
-    int k;
-    cin>>k;
-    head = kreverse(head,k);
+int main()
+{
+    Node *head = takeinput();
+    head = insert(head, 2, 99);
+    print(head);
     return 0;
 }

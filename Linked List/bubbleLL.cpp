@@ -1,3 +1,13 @@
+/*Bubble Sort (Iterative) LinkedList
+Sort a given linked list using Bubble Sort (iteratively). While sorting, you need to swap the entire nodes, not just the data.
+You don't need to print the elements, just sort the elements and return the head of updated LL.
+Input format : Linked list elements (separated by space and terminated by -1)`
+
+Sample Input 1 :
+1 4 5 2 -1
+Sample Output 1 :
+1 2 4 5*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -13,52 +23,6 @@ public:
         next = NULL;
     }
 };
-
-void print(Node *head)
-{
-    Node *temp = head;
-    while (temp != NULL)
-    {
-        cout << temp->data << " ";
-        temp = temp->next;
-    }
-}
-
-Node *takeinput()
-{
-    int data;
-    cin >> data;
-    Node *head = NULL;
-    Node *tail = NULL;
-    while (data != -1)
-    {
-        Node *n = new Node(data);
-        if (head == NULL)
-        {
-            head = n;
-            tail = n;
-        }
-        else
-        {
-            tail->next = n;
-            tail = tail->next;
-        }
-
-        cin >> data;
-    }
-    return head;
-}
-
-int len(Node *head)
-{
-    int c = 0;
-    while (head != NULL)
-    {
-        head = head->next;
-        c++;
-    }
-    return c;
-}
 
 Node *sor(Node *head)
 {
@@ -95,12 +59,4 @@ Node *sor(Node *head)
         }
     }
     return head;
-}
-
-int main()
-{
-    Node *head = takeinput();
-    head = sor(head);
-    print(head);
-    return 0;
 }

@@ -1,6 +1,19 @@
+/*Code: Midpoint of LL
+Given a linked list, find and return the midpoint.
+If the length of linked list is even, return the first mid point.
+Input format : Linked list elements (separated by space and terminated by -1)`
+
+Sample Input 1 :
+1 2 3 4 5 -1
+Sample Output 1 :
+3
+Sample Input 2 :
+1 2 3 4 -1
+Sample Output 2 :
+2*/
+
 #include <bits/stdc++.h>
 using namespace std;
-//#include "Node.cpp"
 
 class Node
 {
@@ -50,17 +63,23 @@ Node *takeinput()
     return head;
 }
 
+Node *midLL(Node *head)
+{
+    Node *slow = head;
+    Node *fast = head;
+
+    while (fast->next != NULL && fast->next->next != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
+}
+
 int main()
 {
     Node *head = takeinput();
-
-    int count = 0;
-    Node *temp = head;
-    while (temp != NULL)
-    {
-        count++;
-        temp = temp->next;
-    }
-    cout << count;
+    head = midLL(head);
+    cout << head->data;
     return 0;
 }

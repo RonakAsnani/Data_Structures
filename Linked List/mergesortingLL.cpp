@@ -1,3 +1,20 @@
+/*
+Code: Merge Two Sorted LL
+Given two linked lists sorted in increasing order. Merge them in such a way that the result list is also sorted (in increasing order).
+Try solving with O(1) auxiliary space (in-place). You just need to return the head of new linked list, don't print the elements.
+Input format :
+Line 1 : Linked list 1 elements of length n (separated by space and terminated by -1)
+Line 2 : Linked list 2 elements of length m (separated by space and terminated by -1)
+Output format :
+Merged list elements (separated by space)
+Constraints :
+1 <= n, m <= 10^4
+Sample Input :
+ 2 5 8 12 -1
+ 3 6 9 -1
+Sample Output :
+ 2 3 5 6 8 9 12 */
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -75,60 +92,39 @@ Node *mergeso(Node *h1, Node *h2)
     return NULL;
 }
 
-Node *mergesort(Node *h1, Node *h2)
+Node *midLL(Node *head)
 {
-    Node *fh = NULL;
-    Node *ft = NULL;
+    Node *slow = head;
+    Node *fast = head;
 
-    while (h1 != NULL && h2 != NULL)
+    while (fast->next != NULL && fast->next->next != NULL)
     {
-        if (h1->data < h2->data)
-        {
-            if (fh == NULL)
-            {
-                fh = h1;
-                ft = h1;
-            }
-            else
-            {
-                ft->next = h1;
-                ft = h1;
-            }
-            h1 = h1->next;
-        }
-        if (h1->data > h2->data)
-        {
-            if (fh == NULL)
-            {
-                fh = h2;
-                ft = h2;
-            }
-            else
-            {
-                ft->next = h2;
-                ft = h2;
-            }
-            h2 = h2->next;
-        }
+        slow = slow->next;
+        fast = fast->next->next;
     }
-
-    if (h1 != NULL && h2 == NULL)
-    {
-        ft->next = h1;
-    }
-    if (h2 != NULL && h1 == NULL)
-    {
-        ft->next = h2;
-    }
-
-    return fh;
+    return slow;
 }
+
+Node *mergesorting(Node *h1)
+{
+    if (h1 == NULL || h1->next == NULL)
+    {
+        return h1;
+    }
+    Node *mid = midLL(h1);
+    Node *midf = mid->next;
+    mid->next = NULL;
+    Node *start = mergesorting(h1);
+    Node *end = mergesorting(midf);
+
+    return mergeso(start, end);
+}
+
 int main()
 {
-    Node *l1 = takeinput();
-    Node *l2 = takeinput();
+    Node *h1 = takeinput();
 
-    Node *head = mergeso(l1, l2);
-    print(head);
+    h1 = mergesorting(h1);
+    print(h1);
     return 0;
 }

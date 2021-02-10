@@ -1,5 +1,19 @@
+/*Length of LL
+Send Feedback
+Given a linked list, find and return the length of input LL. Do it iteratively.
+Input format :
+Linked list elements (separated by space and terminated by -1)
+Output format :
+Length of LL
+Sample Input :
+3 4 5 2 6 1 9 -1
+Sample Output :
+7
+	*/
+
 #include <bits/stdc++.h>
 using namespace std;
+//#include "Node.cpp"
 
 class Node
 {
@@ -49,29 +63,17 @@ Node *takeinput()
     return head;
 }
 
-Node *reverseLL(Node *head)
-{
-    if (head == NULL || head->next == NULL)
-    {
-        return head;
-    }
-    Node *small = reverseLL(head->next);
-
-    Node *temp = small;
-    while (temp->next != NULL)
-    {
-        temp = temp->next;
-    }
-    temp->next = head;
-    head->next = NULL;
-
-    return small;
-}
-
 int main()
 {
     Node *head = takeinput();
-    head = reverseLL(head);
-    print(head);
+
+    int count = 0;
+    Node *temp = head;
+    while (temp != NULL)
+    {
+        count++;
+        temp = temp->next;
+    }
+    cout << count;
     return 0;
 }
