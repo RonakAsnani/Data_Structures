@@ -67,55 +67,29 @@ BinaryTreeNode<int> *takeInputLevelWise()
     }
     return root;
 }
-BinaryTreeNode<int> *cons(int *post, int postl, int *in, int inl)
+pair<int, int> minMax(BinaryTreeNode<int> *root)
 {
-    BinaryTreeNode<int> *root = new BinaryTreeNode<int>(post[postl - 1]);
-    if (postl == 0)
+    if (root == NULL)
     {
-        return NULL;
+        pair<int, int> p;
+        p.first = INT_MIN;
+        p.second = INT_MAX;
+        return p;
     }
-    if (postl == 1)
-    {
-        return root;
-    }
-    int rootIndex = 0;
-    while (in[rootIndex] != root->data)
-    {
-        rootIndex++;
-    }
+    pair<int, int> left = minMax(root->left);
+    pair<int, int> right = minMax(root->right);
 
-    int llen = rootIndex;
-    int rlen = inl - rootIndex - 1;
+    pair<int, int> ans;
+    ans.first = max(max(left.first, right.first), root->data);
+    ans.second = min(min(left.second, right.second), root->data);
 
-    root->left = cons(post, llen, in, llen);
-    root->right = cons(post + llen, rlen, in + llen + 1, rlen);
-
-    return root;
+    return ans;
 }
 
 // 1 2 3 4 5 6 7 -1 -1 -1 -1 8 9 -1 -1 -1 -1 -1 -1
 int main()
 {
-    // BinaryTreeNode<int> *root = new BinaryTreeNode<int>(1);
-    // BinaryTreeNode<int> *node1 = new BinaryTreeNode<int>(2);
-    // BinaryTreeNode<int> *node2 = new BinaryTreeNode<int>(3);
-    // root->left = node1;
-    // root->right = node2;
-    // printTree(root);
-    // delete (root);
-    // return 0;
-    int n;
-    cin >> n;
-    int *pre = new int[n];
-    int *in = new int[n];
-    for (int i = 0; i < n; i++)
-    {
-        cin >> pre[i];
-    }
-    for (int i = 0; i < n; i++)
-    {
-        cin >> in[i];
-    }
-    BinaryTreeNode<int> *root = cons(pre, n, in, n);
-    printLevelWise(root);
+
+    BinaryTreeNode<int> *root = takeInputLevelWise();
+    cout << minMax(root).first << " " << minMax(root).second << endl;
 }
