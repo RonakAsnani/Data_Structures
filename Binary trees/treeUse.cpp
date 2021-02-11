@@ -67,25 +67,18 @@ BinaryTreeNode<int> *takeInputLevelWise()
     }
     return root;
 }
-void mirrorTree(BinaryTreeNode<int> *root)
+void preOrderBT(BinaryTreeNode<int> *root)
 {
     if (root == NULL)
     {
         return;
     }
-    mirrorTree(root->left);
-    mirrorTree(root->right);
-
-    if (root->left != NULL || root->right != NULL)
-    {
-        BinaryTreeNode<int> *temp = root->left;
-        root->left = root->right;
-        root->right = temp;
-    }
-
+    cout << root->data << " ";
+    preOrderBT(root->left);
+    preOrderBT(root->right);
     return;
 }
-
+// 1 2 3 4 5 6 7 -1 -1 -1 -1 8 9 -1 -1 -1 -1 -1 -1
 int main()
 {
     // BinaryTreeNode<int> *root = new BinaryTreeNode<int>(1);
@@ -97,7 +90,5 @@ int main()
     // delete (root);
     // return 0;
     BinaryTreeNode<int> *root = takeInputLevelWise();
-    printLevelWise(root);
-    mirrorTree(root);
-    printLevelWise(root);
+    preOrderBT(root);
 }
