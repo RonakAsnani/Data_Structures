@@ -2,6 +2,20 @@
 using namespace std;
 #include "binaryTree.h"
 
+template <typename T>
+class Node
+{
+public:
+    T data;
+    Node *next;
+
+    Node(T data)
+    {
+        this->data = data;
+        next = NULL;
+    }
+};
+
 void printLevelWise(BinaryTreeNode<int> *root)
 {
     if (root == NULL)
@@ -67,23 +81,43 @@ BinaryTreeNode<int> *takeInputLevelWise()
     }
     return root;
 }
-pair<int, int> minMax(BinaryTreeNode<int> *root)
+void printzigzag(BinaryTreeNode<int> *root)
 {
-    if (root == NULL)
+    int level = 1;
+    queue<BinaryTreeNode<int> *> q;
+    q.push(root);
+    cout << root->data << endl;
+    while (!q.empty())
     {
-        pair<int, int> p;
-        p.first = INT_MIN;
-        p.second = INT_MAX;
-        return p;
+        level++;
+        BinaryTreeNode<int> *front = q.front();
+        q.pop();
+        if (front->left != NULL && front->right != NULL)
+        {
+            if (level % 2 == 0)
+            {
+                cout << front->right->data << " " << front->left->data << endl;
+            }
+            if (level % 2 != 0)
+            {
+                cout << front->left->data << " " << front->right->data << endl;
+            }
+            q.push(front->left);
+            q.push(front->right);
+        }
+        if (front->left == NULL && front->right != NULL)
+        {
+            cout << front->right->data;
+            //q.push(front->left);
+            q.push(front->right);
+        }
+        if (front->left != NULL && front->right == NULL)
+        {
+            cout << front->left->data;
+            //q.push(front->left);
+            q.push(front->left);
+        }
     }
-    pair<int, int> left = minMax(root->left);
-    pair<int, int> right = minMax(root->right);
-
-    pair<int, int> ans;
-    ans.first = max(max(left.first, right.first), root->data);
-    ans.second = min(min(left.second, right.second), root->data);
-
-    return ans;
 }
 
 // 1 2 3 4 5 6 7 -1 -1 -1 -1 8 9 -1 -1 -1 -1 -1 -1
@@ -91,5 +125,6 @@ int main()
 {
 
     BinaryTreeNode<int> *root = takeInputLevelWise();
-    cout << minMax(root).first << " " << minMax(root).second << endl;
+
+    printzigzag(root);
 }
