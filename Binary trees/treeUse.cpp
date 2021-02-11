@@ -67,17 +67,31 @@ BinaryTreeNode<int> *takeInputLevelWise()
     }
     return root;
 }
-void preOrderBT(BinaryTreeNode<int> *root)
+BinaryTreeNode<int> *cons(int *pre, int prel, int *in, int inl)
 {
-    if (root == NULL)
+    BinaryTreeNode<int> *root = new BinaryTreeNode<int>(pre[0]);
+    if (prel == 0)
     {
-        return;
+        return NULL;
     }
-    cout << root->data << " ";
-    preOrderBT(root->left);
-    preOrderBT(root->right);
-    return;
+    if (prel == 1)
+    {
+        return root;
+    }
+    int rootIndex = 0;
+    while (in[rootIndex] != pre[0])
+    {
+        rootIndex++;
+    }
+    int llen = rootIndex;
+    int rlen = inl - rootIndex - 1;
+
+    root->left = cons(pre + 1, llen, in, llen);
+    root->right = cons(pre + 1 + llen, rlen, in + 1 + llen, rlen);
+
+    return root;
 }
+
 // 1 2 3 4 5 6 7 -1 -1 -1 -1 8 9 -1 -1 -1 -1 -1 -1
 int main()
 {
@@ -89,6 +103,18 @@ int main()
     // printTree(root);
     // delete (root);
     // return 0;
-    BinaryTreeNode<int> *root = takeInputLevelWise();
-    preOrderBT(root);
+    int n;
+    cin >> n;
+    int *pre = new int[n];
+    int *in = new int[n];
+    for (int i = 0; i < n; i++)
+    {
+        cin >> pre[i];
+    }
+    for (int i = 0; i < n; i++)
+    {
+        cin >> in[i];
+    }
+    BinaryTreeNode<int> *root = cons(pre, n, in, n);
+    printLevelWise(root);
 }
