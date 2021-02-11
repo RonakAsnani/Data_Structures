@@ -67,27 +67,28 @@ BinaryTreeNode<int> *takeInputLevelWise()
     }
     return root;
 }
-BinaryTreeNode<int> *cons(int *pre, int prel, int *in, int inl)
+BinaryTreeNode<int> *cons(int *post, int postl, int *in, int inl)
 {
-    BinaryTreeNode<int> *root = new BinaryTreeNode<int>(pre[0]);
-    if (prel == 0)
+    BinaryTreeNode<int> *root = new BinaryTreeNode<int>(post[postl - 1]);
+    if (postl == 0)
     {
         return NULL;
     }
-    if (prel == 1)
+    if (postl == 1)
     {
         return root;
     }
     int rootIndex = 0;
-    while (in[rootIndex] != pre[0])
+    while (in[rootIndex] != root->data)
     {
         rootIndex++;
     }
+
     int llen = rootIndex;
     int rlen = inl - rootIndex - 1;
 
-    root->left = cons(pre + 1, llen, in, llen);
-    root->right = cons(pre + 1 + llen, rlen, in + 1 + llen, rlen);
+    root->left = cons(post, llen, in, llen);
+    root->right = cons(post + llen, rlen, in + llen + 1, rlen);
 
     return root;
 }
