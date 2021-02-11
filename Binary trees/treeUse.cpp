@@ -2,25 +2,6 @@
 using namespace std;
 #include "binaryTree.h"
 
-void printTree(BinaryTreeNode<int> *root)
-{
-    if (root == NULL)
-    {
-        return;
-    }
-    cout << root->data << ":";
-    if (root->left != NULL)
-    {
-        cout << "L" << root->left->data;
-    }
-    if (root->right != NULL)
-    {
-        cout << "R" << root->right->data << ",";
-    }
-    cout << endl;
-    printTree(root->left);
-    printTree(root->right);
-}
 void printLevelWise(BinaryTreeNode<int> *root)
 {
     if (root == NULL)
@@ -46,22 +27,6 @@ void printLevelWise(BinaryTreeNode<int> *root)
         }
         cout << endl;
     }
-}
-BinaryTreeNode<int> *takeInput()
-{
-    int rootData;
-    cout << "Enter root data: " << endl;
-    cin >> rootData;
-    if (rootData == -1)
-    {
-        return NULL;
-    }
-    BinaryTreeNode<int> *root = new BinaryTreeNode<int>(rootData);
-    BinaryTreeNode<int> *leftChild = takeInput();
-    BinaryTreeNode<int> *rightChild = takeInput();
-    root->left = leftChild;
-    root->right = rightChild;
-    return root;
 }
 
 BinaryTreeNode<int> *takeInputLevelWise()
@@ -102,6 +67,24 @@ BinaryTreeNode<int> *takeInputLevelWise()
     }
     return root;
 }
+void mirrorTree(BinaryTreeNode<int> *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    mirrorTree(root->left);
+    mirrorTree(root->right);
+
+    if (root->left != NULL || root->right != NULL)
+    {
+        BinaryTreeNode<int> *temp = root->left;
+        root->left = root->right;
+        root->right = temp;
+    }
+
+    return;
+}
 
 int main()
 {
@@ -115,5 +98,6 @@ int main()
     // return 0;
     BinaryTreeNode<int> *root = takeInputLevelWise();
     printLevelWise(root);
-    delete (root);
+    mirrorTree(root);
+    printLevelWise(root);
 }
