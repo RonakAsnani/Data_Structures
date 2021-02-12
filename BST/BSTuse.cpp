@@ -2,6 +2,63 @@
 using namespace std;
 #include "binaryTree.h"
 
+template <typename T>
+class Node
+{
+public:
+    T data;
+    Node *next;
+};
+pair<Node<int> *, Node<int> *> LL(BinaryTreeNode<int> *root)
+{
+    if (root == NULL)
+    {
+        pair<Node<int> *, Node<int> *> p;
+        p.first = NULL;
+        p.second = NULL;
+        return p;
+    }
+    pair<Node<int> *, Node<int> *> ans;
+    if (root->left != NULL && root->right != NULL)
+    {
+        pair<Node<int> *, Node<int> *> left = LL(root->left);
+        pair<Node<int> *, Node<int> *> right = LL(root->right);
+        Node<int> *link;
+        link->data = root->data;
+        link->next = right.first;
+        left.second->next = link;
+
+        ans.first = left.first;
+        ans.second = right.second;
+    }
+    if (root->left == NULL && root->right != NULL)
+    {
+        pair<Node<int> *, Node<int> *> right = LL(root->right);
+        Node<int> *link;
+        link->data = root->data;
+        link->next = right.first;
+
+        ans.first = link;
+        ans.second = right.second;
+    }
+    if (root->left != NULL && root->right == NULL)
+    {
+        pair<Node<int> *, Node<int> *> left = LL(root->left);
+        Node<int> *link;
+        link->data = root->data;
+        left.second->next = link;
+        ans.first = left.first;
+        ans.second = link;
+    }
+    if (root->left == NULL && root->right == NULL)
+    {
+        ans.first = NULL;
+        ans.second = NULL;
+    }
+
+    return ans;
+}
+
 BinaryTreeNode<int> *takeInputLevelWise()
 {
     int rootData;
@@ -41,41 +98,63 @@ BinaryTreeNode<int> *takeInputLevelWise()
     return root;
 }
 
-int ma(BinaryTreeNode<int> *root)
+BinaryTreeNode<int> *cons(int *arr, int si, int ei)
 {
-    if (root == NULL)
+    if (si > ei)
     {
-        return INT_MIN;
+        return NULL;
     }
-    return max(root->data, max(ma(root->left), ma(root->right)));
+    int mid = (si + ei) / 2;
+    BinaryTreeNode<int> *root = new BinaryTreeNode<int>(arr[mid]);
+
+    root->left = cons(arr, si, mid - 1);
+    root->right = cons(arr, mid + 1, ei);
+
+    return root;
 }
-int mi(BinaryTreeNode<int> *root)
+BinaryTreeNode<int> *tree(int *arr, int n)
 {
-    if (root == NULL)
-    {
-        return INT_MAX;
-    }
-    return min(root->data, min(mi(root->left), mi(root->right)));
+    int st = 0;
+    int en = n - 1;
+    return cons(arr, st, en);
 }
-
-bool ifBST(BinaryTreeNode<int> *root)
+void printLevelWise(BinaryTreeNode<int> *root)
 {
     if (root == NULL)
     {
-        return true;
+        return;
     }
-
-    int leftMax = ma(root->left);
-    int rightmin = mi(root->right);
-
-    bool out = (root->data > leftMax) && (root->data <= rightmin) && ifBST(root->left) && ifBST(root->right);
-
-    return out;
+    queue<BinaryTreeNode<int> *> q;
+    q.push(root);
+    while (!q.empty())
+    {
+        BinaryTreeNode<int> *front = q.front();
+        q.pop();
+        cout << front->data << ": ";
+        if (front->left != NULL)
+        {
+            cout << "L" << front->left->data;
+            q.push(front->left);
+        }
+        if (front->right != NULL)
+        {
+            cout << "R" << front->right->data;
+            q.push(front->right);
+        }
+        cout << endl;
+    }
 }
 
 int main()
 {
+
     BinaryTreeNode<int> *root = takeInputLevelWise();
-    cout << ifBST(root);
-    delete (root);
+    pair<Node<int> *, Node<int> *> p = LL(root);
+    Node<int> *temp = p.first;
+    while (temp != NULL)
+    {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    //delete (root);
 }
