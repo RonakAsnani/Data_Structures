@@ -2,38 +2,67 @@
 using namespace std;
 #include "binaryTree.h"
 
-int largestBST(BinaryTreeNode<int> *root, int min, int max, int height)
+void printDist(BinaryTreeNode<int> *root, int n, int k)
 {
-
     if (root == NULL)
     {
-        return 0;
+        return;
     }
-    if (root->data < root->right->data && root->data > root->left->data)
+    if (root->data != n)
     {
-        if (root->data > min && root->data < max)
-        {
-            int left = largestBST(root->left, min, root->data + 1, height);
-            int right = largestBST(root->right, root->data, max, height);
-            return height + 1 + left + right;
-        }
+        printDist(root->left, n, k);
+        printDist(root->right, n, k);
     }
     else
     {
-        int left = largestBST(root->left, min, root->data + 1, height);
-        int right = largestBST(root->right, root->data, max, height);
-        return left + right;
+        if (root->left == NULL && root->right == NULL)
+        {
+            if (k == 0)
+            {
+                cout << root->data << endl;
+            }
+            return;
+        }
+        else if (root->left != NULL && root->right == NULL)
+        {
+            if (k == 0)
+            {
+                cout << root->data << endl;
+                return;
+            }
+            else
+            {
+                printDist(root->left, root->left->data, k - 1);
+            }
+        }
+        else if (root->left == NULL && root->right != NULL)
+        {
+            if (k == 0)
+            {
+                cout << root->data << endl;
+                return;
+            }
+            else
+            {
+                printDist(root->right, root->right->data, k - 1);
+            }
+        }
+        else if (root->left != NULL && root->right != NULL)
+        {
+            if (k == 0)
+            {
+                cout << root->data << endl;
+                return;
+            }
+            else
+            {
+                printDist(root->left, root->left->data, k - 1);
+                printDist(root->right, root->right->data, k - 1);
+            }
+        }
     }
-    return height;
 }
 
-int bst(BinaryTreeNode<int> *root)
-{
-    int min = INT_MIN;
-    int max = INT_MAX;
-    int height = 0;
-    return largestBST(root, min, max, 0);
-}
 BinaryTreeNode<int> *takeInputLevelWise()
 {
     int rootData;
@@ -102,7 +131,9 @@ void printLevelWise(BinaryTreeNode<int> *root)
 
 int main()
 {
-
+    int n, k;
     BinaryTreeNode<int> *root = takeInputLevelWise();
-    cout << bst(root);
+    cin >> n;
+    cin >> k;
+    printDist(root, n, k);
 }
