@@ -2,63 +2,38 @@
 using namespace std;
 #include "binaryTree.h"
 
-template <typename T>
-class Node
+int largestBST(BinaryTreeNode<int> *root, int min, int max, int height)
 {
-public:
-    T data;
-    Node *next;
-};
-pair<Node<int> *, Node<int> *> LL(BinaryTreeNode<int> *root)
-{
+
     if (root == NULL)
     {
-        pair<Node<int> *, Node<int> *> p;
-        p.first = NULL;
-        p.second = NULL;
-        return p;
+        return 0;
     }
-    pair<Node<int> *, Node<int> *> ans;
-    if (root->left != NULL && root->right != NULL)
+    if (root->data < root->right->data && root->data > root->left->data)
     {
-        pair<Node<int> *, Node<int> *> left = LL(root->left);
-        pair<Node<int> *, Node<int> *> right = LL(root->right);
-        Node<int> *link;
-        link->data = root->data;
-        link->next = right.first;
-        left.second->next = link;
-
-        ans.first = left.first;
-        ans.second = right.second;
+        if (root->data > min && root->data < max)
+        {
+            int left = largestBST(root->left, min, root->data + 1, height);
+            int right = largestBST(root->right, root->data, max, height);
+            return height + 1 + left + right;
+        }
     }
-    if (root->left == NULL && root->right != NULL)
+    else
     {
-        pair<Node<int> *, Node<int> *> right = LL(root->right);
-        Node<int> *link;
-        link->data = root->data;
-        link->next = right.first;
-
-        ans.first = link;
-        ans.second = right.second;
+        int left = largestBST(root->left, min, root->data + 1, height);
+        int right = largestBST(root->right, root->data, max, height);
+        return left + right;
     }
-    if (root->left != NULL && root->right == NULL)
-    {
-        pair<Node<int> *, Node<int> *> left = LL(root->left);
-        Node<int> *link;
-        link->data = root->data;
-        left.second->next = link;
-        ans.first = left.first;
-        ans.second = link;
-    }
-    if (root->left == NULL && root->right == NULL)
-    {
-        ans.first = NULL;
-        ans.second = NULL;
-    }
-
-    return ans;
+    return height;
 }
 
+int bst(BinaryTreeNode<int> *root)
+{
+    int min = INT_MIN;
+    int max = INT_MAX;
+    int height = 0;
+    return largestBST(root, min, max, 0);
+}
 BinaryTreeNode<int> *takeInputLevelWise()
 {
     int rootData;
@@ -98,26 +73,6 @@ BinaryTreeNode<int> *takeInputLevelWise()
     return root;
 }
 
-BinaryTreeNode<int> *cons(int *arr, int si, int ei)
-{
-    if (si > ei)
-    {
-        return NULL;
-    }
-    int mid = (si + ei) / 2;
-    BinaryTreeNode<int> *root = new BinaryTreeNode<int>(arr[mid]);
-
-    root->left = cons(arr, si, mid - 1);
-    root->right = cons(arr, mid + 1, ei);
-
-    return root;
-}
-BinaryTreeNode<int> *tree(int *arr, int n)
-{
-    int st = 0;
-    int en = n - 1;
-    return cons(arr, st, en);
-}
 void printLevelWise(BinaryTreeNode<int> *root)
 {
     if (root == NULL)
@@ -149,12 +104,5 @@ int main()
 {
 
     BinaryTreeNode<int> *root = takeInputLevelWise();
-    pair<Node<int> *, Node<int> *> p = LL(root);
-    Node<int> *temp = p.first;
-    while (temp != NULL)
-    {
-        cout << temp->data << " ";
-        temp = temp->next;
-    }
-    //delete (root);
+    cout << bst(root);
 }
