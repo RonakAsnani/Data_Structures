@@ -43,7 +43,6 @@ private:
             BinaryTreeNode<int> *ne = new BinaryTreeNode<int>(data);
 
             return ne;
-            ;
         }
 
         if (data < root->data)

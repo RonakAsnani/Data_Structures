@@ -13,7 +13,6 @@ using namespace std;
 
 void printInOrder(BinaryTreeNode<int> *root, int small, int large)
 {
-
     if (root == NULL)
     {
         return;
