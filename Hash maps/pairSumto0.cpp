@@ -20,6 +20,8 @@ Sample Output :
 -2 2
 */
 
+// incomplete
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -32,23 +34,27 @@ void print(int *a, int size)
         {
             m[a[i]] = a[i];
         }
-        else if (m.count((-1) * a[i]) > 0)
+        if (m.count(-1 * a[i]) > 0)
         {
-            // m[a[i]] = a[i];
-            if (a[i] > (-1) * a[i])
+            if (a[i] > -1 * a[i])
             {
-                cout << (-1) * a[i] << " " << a[i] << endl;
+                cout << -1 * a[i] << " " << a[i] << endl;
             }
             else
             {
-                cout << a[i] << " " << (-1) * a[i] << endl;
+                cout << a[i] << " " << -1 * a[i] << endl;
             }
         }
-        else
+        if (m.count(a[i]) > 0)
         {
             continue;
         }
     }
+    // for (int i = 0; i < size; i++){
+    //     if(m.count(a[i]*(-1) > 0){
+
+    //     }
+    // }
 }
 
 int main()
