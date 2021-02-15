@@ -34,7 +34,7 @@ class OurMap
 public:
     OurMap()
     {
-        size = 0;
+        count = 0;
         numBuckets = 5;
         buckets = new MapNode<T> *[numBuckets];
         for (int i = 0; i < numBuckets; i++)
@@ -73,9 +73,44 @@ private:
     }
 
 public:
+    double getLoadFactor()
+    {
+        return (1.0 * count) / numBuckets;
+    }
+    void reh()
+    {
+        MapNode<T> **temp = buckets;
+        buckets = new MapNode<T> *[2 * numBuckets];
+        for (int i = 0; i < 2 * numBuckets; i++)
+        {
+            buckets[i] = NULL;
+        }
+        int oldBucketCount = numBuckets;
+        numBuckets = 2 * numBuckets;
+        count = 0;
+
+        for (int i = 0; i < oldBucketCount; i++)
+        {
+            MapNode<T> *head = temp[i];
+            while (head != NULL)
+            {
+                string key = head->key;
+                T value = head->value;
+                insert(key, value);
+                head = head->next;
+            }
+        }
+        for (int i = 0; i < oldBucketCount; i++)
+        {
+            MapNode<T> *head = temp[i];
+            delete head;
+        }
+        delete[] temp;
+    }
+
     void insert(string key, T value)
     {
-        int bucketIndex = getBucketIndex(string key);
+        int bucketIndex = getBucketIndex(key);
         MapNode<T> *head = buckets[bucketIndex];
         while (head != NULL)
         {
@@ -88,9 +123,14 @@ public:
         }
         head = buckets[bucketIndex];
         MapNode<T> *node = new MapNode<T>(key, value);
-        node->next = next;
+        node->next = head;
         buckets[bucketIndex] = node;
         count++;
+        double loadFactor = (1.0 * count) / numBuckets;
+        if (loadFactor > 0.7)
+        {
+            reh();
+        }
     }
 
     T getValue(string key)
@@ -124,7 +164,7 @@ public:
                 {
                     prev->next = head->next;
                 }
-                T value = head->next;
+                T value = head->value;
                 head->next = NULL;
                 delete head;
                 count--;
