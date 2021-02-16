@@ -20,8 +20,6 @@ Sample Output :
 -2 2
 */
 
-// incomplete
-
 #include <bits/stdc++.h>
 using namespace std;
 
