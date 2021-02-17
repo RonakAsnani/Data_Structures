@@ -48,39 +48,42 @@ public:
             childIndex = parentIndex;
         }
     }
+    // check
     int removeMin()
     {
+        if (isEmpty())
+        {
+            return 0;
+        }
         int t = v.at(0);
         v.at(0) = v.at(v.size() - 1);
-        v.at(v.size() - 1) = t;
         v.pop_back();
 
         int parent = 0;
         int child1 = 2 * parent + 1;
         int child2 = 2 * parent + 2;
-        while (parent < v.size())
+        while (child1 < v.size())
         {
-            if (v.at(parent) < v.at(child1) && v.at(parent) < v.at(child2))
+            int minIndex = parent;
+            if (v[minIndex] > v[child1])
             {
-                return t;
+                minIndex = child1;
             }
-            else if (v.at(parent) > v.at(child1) && v.at(parent) > v.at(child2))
+            if (child2 < v.size() && v[child2] < v[minIndex])
             {
-                if (v.at(child1) < v.at(child2))
-                {
-                    int temp = v.at(parent);
-                    v.at(parent) = v.at(child1);
-                    v.at(child1) = temp;
-                    parent = child1;
-                }
-                else
-                {
-                    int temp = v.at(parent);
-                    v.at(parent) = v.at(child2);
-                    v.at(child2) = temp;
-                    parent = child2;
-                }
+                minIndex = child2;
             }
+            if (minIndex == parent)
+            {
+                break;
+            }
+            int temp = v[minIndex];
+            v[minIndex] = v[parent];
+            v[parent] = temp;
+
+            parent = minIndex;
+            child1 = 2 * parent + 1;
+            child2 = 2 * parent + 2;
         }
     }
 };
