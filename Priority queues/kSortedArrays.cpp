@@ -24,30 +24,59 @@ Sample Output 1 :
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<int> sort(vector<vector<int> *> input)
-{
-    int size = input.size() - 1;
+// vector<int> sort(vector<vector<int> *> input)
+// {
+//     int size = input.size() - 1;
 
-    // int* a = input[size];
-    vector<int> out;
+//     // int* a = input[size];
+//     vector<int> out;
+//     priority_queue<int> pq;
+//     for (int i = 0; i < size; i++)
+//     {
+//         vector<int> *q = input[i];
+//         for (int j = 0; j < q->size(); j++)
+//         {
+//             pq.push(q->at(j));
+//         }
+//     }
+//     while (!pq.empty())
+//     {
+//         out.push_back(pq.top());
+//         pq.pop();
+//     }
+// }
+
+void Ksort(int input[], int n, int k)
+{
     priority_queue<int> pq;
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < k; i++)
     {
-        vector<int> *q = input[i];
-        for (int j = 0; j < q->size(); j++)
-        {
-            pq.push(q->at(j));
-        }
+        pq.push(input[i]);
+    }
+    int j = 0;
+    for (int i = k; i < n; i++)
+    {
+        input[j] = pq.top();
+        pq.pop();
+        pq.push(input[i]);
+        j++;
     }
     while (!pq.empty())
     {
-        cout << pq.top() << " ";
+        input[j] = pq.top();
         pq.pop();
+        j++;
     }
 }
 
 int main()
 {
-
+    int input[] = {10, 12, 6, 7, 9};
+    int k = 3;
+    Ksort(input, 5, k);
+    for (int i = 0; i < 5; i++)
+    {
+        cout << input[i] << " ";
+    }
     return 0;
 }
