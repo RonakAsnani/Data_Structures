@@ -35,44 +35,47 @@ Sample Output 2 :
 #include <bits/stdc++.h>
 using namespace std;
 
-int timeTaken(vector<int> v, int n, int k)
+int timeTaken(int *a, int n, int k)
 {
+    queue<int> q;
     priority_queue<int> p;
     for (int i = 0; i < n; i++)
     {
-        p.push(v[i]);
+        q.push(a[i]);
+        p.push(a[i]);
     }
-    int i = 0;
+
     int time = 0;
     while (!p.empty())
     {
-        if (v[i] == p.top())
+        if (q.front() == p.top())
         {
+            if (k == 0)
+            {
+                time++;
+                return time;
+            }
             time++;
+            q.pop();
             p.pop();
-            i++;
+            k--;
         }
         else
         {
-            v.push_back(v[i]);
-            i++;
+            if (k == 0)
+            {
+                k = q.size() - 1;
+            }
+            else
+            {
+                k--;
+            }
+            q.push(q.front());
+            q.pop();
         }
     }
-    return time;
 }
 
 int main()
 {
-    int n;
-    cin >> n;
-    int k;
-    cin >> k;
-    vector<int> v;
-    for (int i = 0; i < n; i++)
-    {
-        cin >> v[i];
-    }
-
-    cout << timeTaken(v, n, k);
-    return 0;
 }
