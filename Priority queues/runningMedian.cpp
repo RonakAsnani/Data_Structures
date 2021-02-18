@@ -27,33 +27,51 @@ S = {6, 2, 1, 3} -> {1, 2, 3, 6}, median = 2
 S = {6, 2, 1, 3, 7} -> {1, 2, 3, 6, 7}, median = 3
 S = {6, 2, 1, 3, 7, 5} -> {1, 2, 3, 5, 6, 7}, median = 4*/
 
+// incomplete
+
 #include <bits/stdc++.h>
 using namespace std;
 
 void printMedian(int *a, int n)
 {
+    int t = 0;
     priority_queue<int> p;
-    vector<int> v;
+    priority_queue<int, vector<int>, greater<int>> m;
+
     for (int i = 0; i < n; i++)
     {
-        p.push(a[i]);
-        while (!p.empty())
+        if (p.empty())
         {
-            v.push_back(p.top());
-            p.pop();
+            p.push(a[i]);
+            t++;
         }
-        for (int i = 0; i < v.size(); i++)
+        else if (p.top() > a[i])
         {
-            p.push(v[i]);
+            m.push(p.top());
+            p.push(a[i]);
+            p.pop();
+            t++;
+        }
+        else if (p.top() < a[i])
+        {
+            m.push(a[i]);
+            t++;
         }
 
-        if (v.size() % 2 == 0)
+        if (t % 2 == 0)
         {
-            cout << (v[(v.size() - 1) / 2] + v[v.size() / 2]) / 2 << endl;
+            cout << (p.top() + m.top()) / 2 << endl;
         }
         else
         {
-            cout << v[v.size() / 2] << endl;
+            if (p.top() > m.top())
+            {
+                cout << p.top() << endl;
+            }
+            else
+            {
+                cout << m.top() << endl;
+            }
         }
     }
 }
