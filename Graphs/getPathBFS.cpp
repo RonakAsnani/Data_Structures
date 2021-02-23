@@ -1,6 +1,6 @@
-/*Code : Get Path - DFS
+/*Code : Get Path - BFS
 Given an undirected graph G(V, E) and two vertices v1 and v2(as integers), find and print the path from v1 to v2 (if exists). Print nothing if there is no path between v1 and v2.
-Find the path using DFS and print the first path that you encountered.
+Find the path using BFS and print the shortest path available.
 V is the number of vertices present in graph G and vertices are numbered from 0 to V-1.
 E is the number of edges present in graph G.
 Print the path in reverse order. That is, print v2 first, then intermediate vertices and v1 at last.
@@ -23,70 +23,69 @@ Sample Input 1 :
 2 3
 1 3
 Sample Output 1 :
-3 0 1
-Sample Input 2 :
-6 3
-5 3
-0 1
-3 4
-0 3
-Sample Output 2 :*/
+3 0 1*/
 
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<int> *getPath(int *edges[], int n, int st, int en, bool *visited)
-{
-
-    if (st == en)
-    {
-        vector<int> *v = new vector<int>();
-        v->push_back(st);
-        return v;
-    }
-
-    vector<int> *v = NULL;
-    visited[st] = true;
-    ;
-    for (int i = 0; i < n; i++)
-    {
-        if (visited[i])
-        {
-            continue;
-        }
-        if (edges[st][i] == 1)
-        {
-            vector<int> *temp = getPath(edges, n, i, en, visited);
-            if (temp != NULL)
-            {
-                v = temp;
-                break;
-            }
-        }
-    }
-    if (v != NULL)
-    {
-        v->push_back(st);
-    }
-    return v;
-}
-
-vector<int> *path(int **edges, int n, int st, int en)
+vector<int> *getPathBFS(int **edges, int n, int st, int en)
 {
     bool *visited = new bool[n];
     for (int i = 0; i < n; i++)
     {
-        visited[i] = 0;
+        visited[i] = false;
     }
-    return getPath(edges, n, st, en, visited);
+    queue<int> q;
+    q.push(st);
+    visited[st] = 1;
+    vector<int> *v = new vector<int>();
+    unordered_map<int, int> m;
+    int ans = false;
+    while (!q.empty())
+    {
+        int front = q.front();
+        q.pop();
+        for (int i = 0; i < n; i++)
+        {
+            if (visited[i])
+            {
+                continue;
+            }
+            if (edges[front][i] == 1)
+            {
+                q.push(i);
+                visited[i] = true;
+                m[i] = front;
+                if (i == en)
+                {
+                    ans = true;
+                    break;
+                }
+            }
+        }
+    }
+    delete[] visited;
+    if (!ans)
+    {
+        return NULL;
+    }
+    else
+    {
+        int curr = en;
+        v->push_back(curr);
+        while (curr != st)
+        {
+            curr = m[curr];
+            v->push_back(curr);
+        }
+    }
+    return v;
 }
 
 int main()
 {
-    int n;
-    int e;
+    int n, e;
     cin >> n >> e;
-
     int **edges = new int *[n];
     for (int i = 0; i < n; i++)
     {
@@ -96,7 +95,6 @@ int main()
             edges[i][j] = 0;
         }
     }
-
     for (int i = 0; i < e; i++)
     {
         int f, s;
@@ -107,7 +105,8 @@ int main()
     int st, en;
     cin >> st >> en;
 
-    vector<int> *v = path(edges, n, st, en);
+    vector<int> *v = getPathBFS(edges, n, st, en);
+
     for (int i = 0; i < v->size(); i++)
     {
         cout << v->at(i) << " ";
