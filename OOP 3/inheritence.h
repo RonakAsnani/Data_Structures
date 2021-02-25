@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
+#ifndef INHERITENCE_H
+#define INHERITENCE_H
 
 class Vehicle
 {
@@ -12,20 +14,24 @@ protected:
 public:
     string color;
 
-    /* Vehicle()
+    Vehicle()
     {
         cout << "Vehicle's default constructor" << endl;
     }
 
-    */
-    Vehicle(int z)
-    {
-        cout << "Vehicle Parametrized constructor" << endl;
-        maxSpeed = z;
-    }
+    // Vehicle(int z)
+    // {
+    //     cout << "Vehicle Parametrized constructor" << endl;
+    //     maxSpeed = z;
+    // }
 
     ~Vehicle()
     {
         cout << "Vehicle's destructor" << endl;
     }
+    void print()
+    {
+        cout << "Vehicle" << endl;
+    }
 };
+#endif
