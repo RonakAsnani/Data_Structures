@@ -14,16 +14,17 @@ protected:
 public:
     string color;
 
-    Vehicle()
-    {
-        cout << "Vehicle's default constructor" << endl;
-    }
-
-    // Vehicle(int z)
+    // Vehicle()
     // {
-    //     cout << "Vehicle Parametrized constructor" << endl;
-    //     maxSpeed = z;
+    //     cout << "Vehicle's default constructor" << endl;
     // }
+
+    Vehicle(int z)
+    {
+        cout << "Vehicle Parametrized constructor"
+             << " " << z << endl;
+        maxSpeed = z;
+    }
 
     ~Vehicle()
     {

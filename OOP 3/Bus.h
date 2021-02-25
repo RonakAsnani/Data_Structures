@@ -6,7 +6,7 @@ using namespace std;
 class Bus : public Car, public Truck
 {
 public:
-    Bus()
+    Bus() : Vehicle(5)
     {
         cout << "Bus constructor" << endl;
     }

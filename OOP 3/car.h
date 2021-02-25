@@ -6,7 +6,7 @@ class Car : virtual public Vehicle
 {
 public:
     int numGears;
-    Car()
+    Car() : Vehicle(3)
     {
         cout << "Car def constructor" << endl;
     }

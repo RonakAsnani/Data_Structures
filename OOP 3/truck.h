@@ -5,7 +5,7 @@ using namespace std;
 class Truck : virtual public Vehicle
 {
 public:
-    Truck()
+    Truck() : Vehicle(4)
     {
         cout << "Truck constructor" << endl;
     }
