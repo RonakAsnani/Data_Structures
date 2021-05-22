@@ -30,26 +30,40 @@ int codes(string s,string* output){
         return 1;
     }
     int num = s[0] - 48;
-    char ch = 'a' + num -1;
-    if(s.length() == 1){
-        output[0] = s[0] - '0' + 'a' -1;
-        return 1;
+    char ch = 'a' + num -1; 
+    int size = 0;
+    int small = codes(s.substr(1),output);
+    for(int i=0;i<small;i++){
+        output[i] = ch + output[i];
     }
-    int x = codes(s.substr(2),output);
+    size += small;
+    if(s.length() >= 2){
+             int num1 = s[1] - 48;
+    int x = num*10 + num1;
+    char ch1 = 'a' + x -1;
+    string* newout = new string[100];
+    if(x>=10 && x<= 26){
+        string* newout = new string[100];
+        int small1 = codes(s.substr(2),newout);
+        for(int i=0;i<small1;i++){
+            output[small +i] = ch1 + newout[i];
+        }
+        size += small1;
+    }
+    }
+   
+    return size;
 
-    if((s[0] - '0')*10 + (s[1] - '0') <=26 ){
-        
-    }
 
 }
 
 int main(){
     string s;
     cin>>s;
-    string* output = new string[];
+    string* output = new string[100];
     int count = codes(s,output);
     for(int i=0;i<count;i++){
-        cout<<s[i]<<endl;
+        cout<<output[i]<<endl;
     }
     return 0;
 }
