@@ -23,7 +23,7 @@ Sample Output:
 15 20 
 15 20 12*/
 
-///////////////////////   MINOR ERROR ////////////////////////////////
+
 
 #include<iostream>
 #include<cmath>
@@ -41,6 +41,7 @@ int subset(int* a,int n,int** output){
         output[i+small][1] = a[0];
         for(int j=2;j<size+1;j++){
             output[i+small][j] = output[i][j-1];
+            
         }
     }
 
@@ -56,12 +57,12 @@ int main(){
     }
     int size = pow(2,n);
     int** output = new int*[size];
-    for(int i=0;i<n;i++){
-        output[i] = new int[size];
+    for(int i=0;i<size;i++){
+        output[i] = new int[20];
     }
     int count = subset(a,n,output);
     for(int i=0;i<count;i++){
-        for(int j=1;j<output[i][0];j++){
+        for(int j=1;j<=output[i][0];j++){
             cout<<output[i][j]<<" ";
         }
         cout<<endl;
