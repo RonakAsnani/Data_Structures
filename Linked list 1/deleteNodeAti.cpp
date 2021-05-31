@@ -22,25 +22,6 @@ Node* takeInput()
     }
     return head;
 }
-
-Node* insert(Node* head,int data,int pos){
-    if(pos == 0){
-        Node* n = new Node(data);
-        n->next = head;
-        return n;
-    }
-    
-    int count =0;
-    Node*  temp = head;
-    while(temp != NULL && count < pos-1){
-        temp = temp->next;
-        count++;
-    }
-    Node* n = new Node(data);
-    n->next = temp->next;
-    temp->next = n;
-    return head;
-}
 void print(Node* head){
     Node* temp = head;
     while(temp != NULL){
@@ -48,13 +29,31 @@ void print(Node* head){
         temp  = temp->next;
     }
 }
+Node* del(Node* head,int pos){
+    if(pos == 0){
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+        return head;
+    }
+    int count=0;
+    Node* temp = head;
+    while(count<pos -1 && temp != NULL){
+        temp = temp->next;
+        count++;
+    }
+    Node* x = temp->next;
+    temp->next= x->next;
+    delete x;
+    return head;
+}
+
 int main(){
-    Node* head= takeInput();
-    int data,pos;
-    cin>>pos>>data;
+    Node* head = takeInput();
+    int pos;
+    cin>>pos;
     print(head);
     cout<<endl;
-    head= insert(head,data,pos);
+    head = del(head,pos);
     print(head);
-    return 0;
 }
