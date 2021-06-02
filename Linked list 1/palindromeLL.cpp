@@ -45,6 +45,7 @@ For the second query, the list is empty. An empty list is always a palindrome , 
 
 #include<iostream>
 #include<vector>
+#include<stack>
 using namespace std;
 #include "Node.cpp"
 
@@ -70,20 +71,28 @@ Node* takeInput()
 }
 
 void print(Node* temp){
-    vector<int> v;
-    Node* head =temp;
+    if(temp == NULL){
+        cout<<"true"<<endl;
+        return;
+    }
+    Node* head = temp;
+    stack<int> s;
+    s.push(head->data);
+    head = head->next;
     while(head != NULL){
-        v.push_back(head->data);
+        if(s.top() == head->data){
+            s.pop();
+        }else{
+            s.push(head->data);
+        }
         head = head->next;
     }
-    int k=v.size()-1;
-    while(k > v.size()/2-1){
-        if(temp->data != v[k++]){
-            cout<<"false"<<endl;
-            return ;
-        }
+    if(s.empty()){
+        cout<<"true"<<endl;
+    }else{
+        cout<<"false"<<endl;
     }
-    cout<<"true"<<endl;
+    return;
 }
 
 int main(){
