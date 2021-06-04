@@ -1,54 +1,45 @@
-/*Problem Statement: Merge Two Sorted Linked Lists
+/*Problem Statement: MergeSort  Linked List
 Problem Level: MEDIUM
 Problem Description:
-You have been given two sorted(in ascending order) singly linked lists of integers.
-Write a function to merge them in such a way that the resulting singly linked list is also sorted(in ascending order) and return the new head to the list.
+Given a singly linked list of integers, sort it using 'Merge Sort.'
 Note :
-Try solving this in O(1) auxiliary space.
-
-No need to print the list, it has already been taken care.
+No need to print the list, it has already been taken care. Only return the new head to the list.
 
 Input format :
 The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
 
-The first line of each test case or query contains the elements of the first sorted singly linked list separated by a single space.
-
-The second line of the input contains the elements of the second sorted singly linked list separated by a single space.
+The first and the only line of each test case or query contains the elements of the singly linked list separated by a single space.
 
 Remember/Consider :
 While specifying the list elements for input, -1 indicates the end of the singly linked list and hence, would never be a list element
 
-Output :
-For each test case/query, print the resulting sorted singly linked list, separated by a single space.
+Output format :
+For each test case/query, print the elements of the sorted singly linked list.
 
 Output for every test case will be printed in a seperate line.
 
 Constraints :
-1 <= t = 10^2
-0 <= N <= 10 ^ 4
-0 <= M <= 10 ^ 4
-Where N and M denote the sizes of the singly linked lists.
+1 <= t <= 10^2
+0 <= M <= 10^5
+Where M is the size of the singly linked list.
 
 Time Limit: 1sec
 
 Sample Input 1 :
 1
-2 5 8 12 -1
-3 6 9 -1
+10 9 8 7 6 5 4 3 -1
 
 Sample Output 1 :
-2 3 5 6 8 9 12
-
-Sample Input 2 :
-2
-2 5 8 12 -1
-3 6 9 -1
-10 40 60 60 80 -1
-10 20 30 40 50 60 90 100 -1
+ 3 4 5 6 7 8 9 10
 
 Sample Output 2 :
-2 3 5 6 8 9 12 
-10 10 20 30 40 40 50 60 60 60 80 90 100*/
+2
+-1
+10 -5 9 90 5 67 1 89 -1
+
+Sample Output 2 :
+-5 1 5 9 10 67 89 90
+*/
 
 #include<iostream>
 using namespace std;
@@ -73,13 +64,6 @@ Node* takeInput()
         cin>>data;
     }
     return head;
-}
-void print(Node* head){
-    Node* temp = head;
-    while(temp != NULL){
-        cout<<temp->data<<" ";
-        temp  = temp->next;
-    }
 }
 Node* merge(Node* h1,Node* h2){
     Node* head;
@@ -124,14 +108,47 @@ Node* merge(Node* h1,Node* h2){
     return head;
 
 }
+Node* mid(Node* head){
+   Node* slow = head;
+    Node* fast = head;
+    while(fast->next !=NULL && fast->next->next != NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
+}
+void print(Node* head){
+    Node* temp = head;
+    while(temp != NULL){
+        cout<<temp->data<<" ";
+        temp  = temp->next;
+    }
+}
+Node* mergesort(Node* head,Node* tail){
+    if(head == tail){
+        return head;
+    }
+    Node* m = mid(head);
+    Node* x = m->next;
+    m->next =NULL;
+    Node* h1 = mergesort(head,m);
+    Node* h2 = mergesort(x,tail);
+    return merge(h1,h2);
+}
 
 int main(){
     int t;
     cin>>t;
     while(t--){
-        Node* h1 = takeInput();
-        Node* h2 = takeInput();
-        Node* head = merge(h1,h2);
+        Node* head = takeInput();
+        if(head == NULL){
+            continue;
+        }
+        Node* tail = head;
+        while(tail->next != NULL){
+            tail = tail->next;
+        }
+        head = mergesort(head,tail);
         print(head);
     }
     return 0;

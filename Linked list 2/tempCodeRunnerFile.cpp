@@ -1,2 +1,1 @@
-            continue;
-        }
+        // cout<<head->next->next->data;

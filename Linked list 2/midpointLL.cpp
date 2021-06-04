@@ -57,10 +57,10 @@ Node* takeInput()
         if(head == NULL){
             head = n;
             prev =n;
-        }
+        }else{
         prev->next = n;
         prev = prev->next;
-        
+        }
 
         cin>>data;
     }
