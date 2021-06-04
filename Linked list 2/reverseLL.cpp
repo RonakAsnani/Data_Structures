@@ -87,14 +87,25 @@ pair<Node*,Node*> rev(Node* head){
     return x;
 }
 
+// better
+Node* rever(Node* head){
+    if(head == NULL ||  head->next == NULL){
+        return head;
+    }
+    Node* small = rever(head->next);
+    head->next->next = head;
+    head->next  = NULL;
+    return small;
+}
+
 int main(){
-    int t;
+    int t; 
     cin>>t;
     while(t--){
         Node* head = takeInput();
 
-        pair<Node*,Node*> x = rev(head);
-        print(x.first);
+        head= rever(head);
+        print(head);
     }
     return 0;
 }
