@@ -1,24 +1,20 @@
-/*Problem Statement: Swap two Nodes of LL
+/*Problem Statement: Bubble Sort (Iterative) LinkedList
 Problem Level: MEDIUM
 Problem Description:
-You have been given a singly linked list of integers along with two integers, 'i,' and 'j.' Swap the nodes that are present at the 'i-th'  and 'j-th' positions.
+Given a singly linked list of integers, sort it using 'Bubble Sort.'
 Note :
-Remember, the nodes themselves must be swapped and not the datas.
-
 No need to print the list, it has already been taken care. Only return the new head to the list.
 
 Input format :
 The first line contains an Integer 't' which denotes the number of test cases or queries to be run. Then the test cases follow.
 
-The first line of each test case or query contains the elements of the singly linked list separated by a single space.
+The first and the only line of each test case or query contains the elements of the singly linked list separated by a single space.
 
-The second line of input contains two integer values 'i,' and 'j,' respectively. A single space will separate them.
-
-Remember/consider :
+Remember/Consider :
 While specifying the list elements for input, -1 indicates the end of the singly linked list and hence, would never be a list element
 
 Output format :
-For each test case/query, print the elements of the updated singly linked list.
+For each test case/query, print the elements of the sorted singly linked list.
 
 Output for every test case will be printed in a seperate line.
 
@@ -26,29 +22,23 @@ Constraints :
 1 <= t <= 10^2
 0 <= M <= 10^5
 Where M is the size of the singly linked list.
-0 <= i < M
-0 <= j < M
 
 Time Limit: 1sec
 
 Sample Input 1 :
 1
-3 4 5 2 6 1 9 -1
-3 4
+10 9 8 7 6 5 4 3 -1
 
 Sample Output 1 :
-3 4 5 6 2 1 9
-
-Sample Input 2 :
-2
-10 20 30 40 -1
-1 2
-70 80 90 25 65 85 90 -1
-0 6
+ 3 4 5 6 7 8 9 10
 
 Sample Output 2 :
-10 30 20 40 
-90 80 90 25 65 85 70*/
+2
+-1
+10 -5 9 90 5 67 1 89 -1
+
+Sample Output 2 :
+-5 1 5 9 10 67 89 90*/
 
 #include<iostream>
 using namespace std;
@@ -115,14 +105,16 @@ void print(Node* head){
 
 int main(){
     int t;
-    cin>>t;
+    cin>>T;
     while(t--){
         Node* head = takeInput();
-        int i,j,x=0;
-        cin>>i>>j;
-       swap(head,i,j);
-       print(head);
 
+        Node* temp = head,*temp1 = head;
+        while(temp != NULL){
+            while(temp1 != NULL){
+                
+            }
+        }
     }
     return 0;
 }
