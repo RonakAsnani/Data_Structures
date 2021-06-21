@@ -1,9 +1,9 @@
 #include<iostream>
 using namespace std;
-#include "StackUsingArray.cpp"
+#include "StackUsingLL.cpp"
 
 int main(){
-    StackUsingArray s(5);
+    StackUsingLL<int> s;
     s.push(10);
     s.push(20);
     s.push(30);

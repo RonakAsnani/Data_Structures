@@ -1,14 +1,14 @@
 #include<iostream>
 #include<climits>
 using namespace std;
-
+template <typename T>
 class StackUsingArray{
-    int* data;
+    T* data;
     int nextIndex;
     int total;
     public: 
     StackUsingArray(){
-        data = new int[4];
+        data = new T[4];
         nextIndex =0;
         total = 4;
     }
@@ -20,9 +20,9 @@ class StackUsingArray{
         return nextIndex == 0;
     }
 
-    void push(int element){ 
+    void push(T element){ 
         if(nextIndex == total){
-            int *nedata = new int[2*total];
+            T *nedata = new T[2*total];
             for(int i=0;i<total;i++){
                 nedata[i] = data[i];
             }
@@ -33,19 +33,19 @@ class StackUsingArray{
         data[nextIndex] = element;
         nextIndex++;
     }
-    int pop(){
+    T pop(){
         if(nextIndex == 0){
             cout<<"stack empty"<<endl;
-            return INT_MAX;
+            return 0;
         } 
         nextIndex--;
         return  data[nextIndex];
 
     }
-    int top(){
+    T top(){
         if(nextIndex == 0){
             cout<<"stack empty"<<endl;
-            return INT_MIN;
+            return 0;
         }
         return data[nextIndex -1];
     }
