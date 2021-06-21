@@ -1,9 +1,9 @@
 #include<iostream>
 using namespace std;
-#include "StackUsingLL.cpp"
+#include<stack>
 
 int main(){
-    StackUsingLL<int> s;
+    stack<int> s;
     s.push(10);
     s.push(20);
     s.push(30);
@@ -11,9 +11,9 @@ int main(){
     s.push(50);
 
     cout<<s.top()<<endl;
-    cout<<s.pop()<<endl;
-    cout<<s.pop()<<endl;
+s.pop();
+s.pop();
     cout<<s.size()<<endl;
-    cout<<s.isEmpty()<<endl;
+    cout<<s.empty()<<endl;
     return 0;
 }
