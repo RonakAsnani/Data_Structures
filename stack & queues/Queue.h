@@ -9,12 +9,12 @@ class QueueUsingArray{
     int size;
     int capacity;
     public:
-    QueueUsingArray(int s) {
-        data = new T[s];
+    QueueUsingArray() {
+        data = new T[5];
         nextIndex = 0;
         firstIndex  = -1;
         size = 0;
-        capacity = s;
+        capacity = 5;
     }
 
     int getSize(){
