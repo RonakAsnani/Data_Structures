@@ -43,18 +43,37 @@ TreeNode<int>* takeinputlevelwise(){
     }
 }
 
-void postorder(TreeNode<int>* root){
+TreeNode<int>* countNum(TreeNode<int>* root){
     if(root == NULL){
-        return;
+      
+        return 0;
     }
-    for(int i=0;i<root->children.size();i++){
-        postorder(root->children[i]);
+    queue<TreeNode<int>*> q;
+    q.push(root);
+    TreeNode<int>* t = root;
+    int ans = -9999;
+    while(!q.empty()){
+        int x =0;
+        TreeNode<int>* temp = q.front();
+        q.pop();
+        x += temp->data;
+        for(int i=0;i<temp->children.size();i++){
+            x += temp->children[i]->data;
+            q.push(temp->children[i]);
+        }
+        if(x > ans){
+            ans = x;;
+            t =temp;
+        }
     }
-    cout<<root->data<<" ";
+    return t;
 }
 
 int main(){
     TreeNode<int>* root = takeinputlevelwise();
-    postorder(root);
+
+    cout<<countNum(root)->data;
+
+
     return 0;
 }

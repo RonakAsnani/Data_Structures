@@ -43,18 +43,20 @@ TreeNode<int>* takeinputlevelwise(){
     }
 }
 
-void postorder(TreeNode<int>* root){
+void replace(TreeNode<int>* root,int k){
     if(root == NULL){
         return;
     }
+    root->data  = k;
     for(int i=0;i<root->children.size();i++){
-        postorder(root->children[i]);
+        replace(root->children[i],k+1);
     }
-    cout<<root->data<<" ";
+    return ;
 }
 
 int main(){
     TreeNode<int>* root = takeinputlevelwise();
-    postorder(root);
+    replace(root,0);
+    printLevelWise(root);
     return 0;
 }

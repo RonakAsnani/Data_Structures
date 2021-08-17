@@ -43,18 +43,19 @@ TreeNode<int>* takeinputlevelwise(){
     }
 }
 
-void postorder(TreeNode<int>* root){
+int height(TreeNode<int>* root){
     if(root == NULL){
-        return;
+        return 0;
     }
+    int ans =0;
     for(int i=0;i<root->children.size();i++){
-        postorder(root->children[i]);
+        ans = max(height(root->children[i]),ans);
     }
-    cout<<root->data<<" ";
+    return ans+1;
 }
 
 int main(){
     TreeNode<int>* root = takeinputlevelwise();
-    postorder(root);
+    cout<<height(root);
     return 0;
 }

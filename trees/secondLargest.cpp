@@ -1,45 +1,87 @@
-/*Second Largest Element In Tree
-Given a generic tree, find and return the node with second largest value in given tree. Return NULL if no node with required value is present.
-Input format :
-Line 1 : Elements in level order form separated by space (as per done in class). Order is -
-Root_data, n (No_Of_Child_Of_Root), n children, and so on for every element 
-Output Format :
-Second Largest node data
-Sample Input 1 :
-10 3 20 30 40 2 40 50 0 0 0 0 
-Sample Output 1 :
-40*/
-
-#include <bits/stdc++.h>
-#include <queue>
+#include<iostream>
+#include<queue>
 #include "TreeNode.h"
 using namespace std;
+TreeNode<int>* takeinputlevelwise(){
+    int rootData;
+    cout<<"Enter root data "<<endl;
+    cin>>rootData;
+    TreeNode<int>* root = new TreeNode<int>(rootData);
+    queue<TreeNode<int>*> pendingNodes;
 
-TreeNode<int> *maxDataNode(TreeNode<int> *root)
-{
-    TreeNode<int> *m = root;
-    for (int i = 0; i < root->children.size(); i++)
-    {
-        TreeNode<int> *small = maxDataNode(root->children[i]);
-        if (m->data < small->data)
-        {
-            m = small;
+    pendingNodes.push(root);
+    while(!pendingNodes.empty()){
+        TreeNode<int>* front = pendingNodes.front();
+        pendingNodes.pop();
+        cout<<"Enter num of children of "<<front->data<<endl;
+        int numChild;
+        cin>>numChild;
+        for(int i=0;i<numChild;i++){
+            int child;
+            cout<<"Enter "<<i<<"th child of "<<front->data<<endl;
+            cin>>child;
+            TreeNode<int>* childNode = new TreeNode<int>(child);
+            front->children.push_back(childNode);
+            pendingNodes.push(childNode);
         }
     }
-    return m;
+    return root;
+
+}
+    void printLevelWise(TreeNode<int>* root){
+    queue<TreeNode<int>*> q;
+    q.push(root);
+    while(!q.empty()){
+        cout<<q.front()->data<<": ";
+        TreeNode<int>* front = q.front();
+        q.pop();
+        for(int i=0;i<front->children.size();i++){
+            cout<<front->children[i]->data<<",";
+            q.push(front->children[i]);
+        }
+        cout<<endl;
+    }
 }
 
-TreeNode<int> *secMax(TreeNode<int> *root)
-{
-    TreeNode<int> *x = maxDataNode(root);
-    TreeNode<int> *m = root;
-    for (int i = 0; i < root->children.size(); i++)
-    {
-        TreeNode<int> *small = maxDataNode(root->children[i]);
-        if (m->data < small->data && small->data < x->data)
-        {
-            m = small;
+TreeNode<int>* second(TreeNode<int>* root){
+    if(root == NULL){  
+        return NULL;
+    }
+    queue<TreeNode<int>*> q;
+    q.push(root);
+    TreeNode<int>* t = new TreeNode<int>(0);
+    int low = 0;
+    while(!q.empty()){
+      
+        TreeNode<int>* temp = q.front();
+        q.pop();
+        if(temp->data > t->data){
+            t = temp;
+            
+        }
+        // if(temp->data < m && temp->data > m2){
+        //     m2 = temp->data;
+        //     t = temp;
+        // }
+        for(int i=0;i<temp->children.size();i++){
+          
+            q.push(temp->children[i]);
         }
     }
-    return m;
+    return t;
+}
+
+int main(){
+    TreeNode<int>* root = takeinputlevelwise();
+
+    TreeNode<int>* ans  = second(root);
+    if(ans == NULL){
+        cout<<-1<<endl;
+        return 0;
+    }
+    cout<<ans->data<<endl;
+    return 0;
+
+
+    return 0;
 }

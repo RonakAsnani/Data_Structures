@@ -43,18 +43,34 @@ TreeNode<int>* takeinputlevelwise(){
     }
 }
 
-void postorder(TreeNode<int>* root){
-    if(root == NULL){
-        return;
+bool check(TreeNode<int>* root1,TreeNode<int>* root2){
+    if(root1 == NULL && root2 ==  NULL){
+        return true;
     }
-    for(int i=0;i<root->children.size();i++){
-        postorder(root->children[i]);
+    if(root1 == NULL || root2 == NULL){
+        return false;
     }
-    cout<<root->data<<" ";
+    if(root1->data != root2->data || root1->children.size() != root2->children.size()){
+        return false;
+    }
+    bool ans= true;
+    for(int i=0;i<root1->children.size();i++){
+        // if(root1->children[i]->data != root2->children[i]->data){
+        //     return false;
+        // }
+        ans  = ans && check(root1->children[i],root2->children[i]);
+    }
+    return ans;
+    
+    
 }
 
 int main(){
-    TreeNode<int>* root = takeinputlevelwise();
-    postorder(root);
+    TreeNode<int>* root1 = takeinputlevelwise();
+    TreeNode<int>* root2 = takeinputlevelwise();
+
+    cout<<check(root1,root2);
+
+
     return 0;
 }

@@ -57,7 +57,26 @@ int main(){
     stack<char> stk;
     int req =0,curr =0;
     for(int i=0;i<s.length();i++){
-        
+        if(s[i] != ')'){
+            stk.push(s[i]);
+        }else{
+            bool flag = false;
+            while(stk.top() != '('){
+                    if(stk.top() == '+' || stk.top() == '-' || stk.top() == '*' || stk.top() == '/' ){
+                flag = true;
+                stk.pop();
+            }else{
+                stk.pop();
+            }
+            }
+            if(!flag){
+                    cout<<"yes"<<endl;
+                    return 0;
+                }
+                stk.pop();
+                continue;
+        }
     }
+    cout<<"no"<<endl;
     return 0;
 }

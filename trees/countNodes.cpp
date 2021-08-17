@@ -43,18 +43,22 @@ TreeNode<int>* takeinputlevelwise(){
     }
 }
 
-void postorder(TreeNode<int>* root){
+int countNum(TreeNode<int>* root){
     if(root == NULL){
+        cout<<0<<endl;
         return;
     }
+    int ans = 1;
     for(int i=0;i<root->children.size();i++){
-        postorder(root->children[i]);
+        ans += countNum(root->children[i]);
     }
-    cout<<root->data<<" ";
+    return ans;
 }
 
 int main(){
     TreeNode<int>* root = takeinputlevelwise();
-    postorder(root);
+    cout<<countNum(root);
+
+
     return 0;
 }
